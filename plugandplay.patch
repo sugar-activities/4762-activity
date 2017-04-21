@@ -1,0 +1,39 @@
+--- /home/ceibal/mainline/butia_toolbar.py	2014-12-23 16:42:48.000000000 -0200
++++ ./butia_toolbar.py	2014-12-28 22:17:27.179388855 -0200
+@@ -3,6 +3,7 @@
+ 
+ import gtk
+ import gobject
++import glib
+ 
+ from gettext import gettext as _
+ 
+@@ -101,7 +102,11 @@
+         self._record.set_tooltip(_('Start Recording'))
+         self._record.connect('clicked', self.record_control_cb)
+ 
++        log.debug('***showing all*****')
+         self.show_all()
++        
++        gobject.timeout_add(1000, self.update_buttons)
++
+ 
+     def get_log(self):
+         return self._log_value
+@@ -208,6 +213,7 @@
+             self.lista_sensores_button.append(radio_tool_button)
+ 
+     def update_buttons(self, button=None):
++        logging.debug('Updating  buttons')
+         for s in self.lista_sensores_button:
+             self.remove(s)
+     
+@@ -215,6 +221,8 @@
+         self.load_buttons()
+         
+         self.show_all()
++        
++        return True
+     
+     def get_sensor_number(self, sensor):
+         sensor_trunked = sensor.strip('0123456789')
